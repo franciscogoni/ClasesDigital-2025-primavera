@@ -1,10 +1,13 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
+import DynamicForm from "../components/DynamicForm";
 
 function Home() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Bienvenido</Text>
+
+      <DynamicForm />
     </View>
   );
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { auth,db } from '../firebase/config';
 import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
 
 class Register extends Component {
@@ -8,18 +9,31 @@ class Register extends Component {
       email: '',
       userName: '',
       password: '',
+      error: '',
     };
   }
 
-  onSubmit = () => {
-    console.log('Datos ingresados:');
-    console.log('Email:', this.state.email);
-    console.log('Usuario:', this.state.userName);
-    console.log('Contraseña:', this.state.password);
+  register = () => {
+    const { email, password } = this.state;
+     if (!email.includes('@')) {
+    this.setState({ error: 'Email mal formateado' });
+    return;
+  }
+  if (password.length < 6) {
+    this.setState({ error: 'La password debe tener una longitud mínima de 6 caracteres' });
+    return;
+  }
+    auth.createUserWithEmailAndPassword(email, password)
+      .then( response => {
+        this.props.navigation.navigate('LogIn');
+      })
+      .catch( error => {
+        this.setState({ error: 'Fallo en el registro' });
+      });
   };
 
   render() {
-    const { email, userName, password } = this.state;
+    const { email, userName, password, error } = this.state;
 
     return (
       <View style={styles.container}>
@@ -48,8 +62,12 @@ class Register extends Component {
           onChangeText={(text) => this.setState({ password: text })}
         />
 
-        <Pressable style={styles.button} onPress={this.onSubmit}>
+        <Pressable style={styles.button} onPress={this.register}>
           <Text style={styles.buttonText}>Registrate</Text>
+        </Pressable>
+
+        <Pressable style={styles.boton}onPress={() => this.props.navigation.navigate('Login')}>
+          <Text style={styles.buttonText}>Ya tengo cuenta</Text>
         </Pressable>
 
         <View style={styles.preview}>
@@ -105,4 +123,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 5,
   },
+  boton:{ 
+    marginTop: 10, 
+    backgroundColor: '#28a745',
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    borderRadius: 8, }
 });
