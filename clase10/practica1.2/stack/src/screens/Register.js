@@ -13,19 +13,11 @@ class Register extends Component {
     };
   }
 
-  register = () => {
-    const { email, password } = this.state;
-     if (!email.includes('@')) {
-    this.setState({ error: 'Email mal formateado' });
-    return;
-  }
-  if (password.length < 6) {
-    this.setState({ error: 'La password debe tener una longitud mínima de 6 caracteres' });
-    return;
-  }
-    auth.createUserWithEmailAndPassword(email, password)
+register() {
+   
+    auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then( response => {
-        this.props.navigation.navigate('LogIn');
+        this.props.navigation.navigate('Login');
       })
       .catch( error => {
         this.setState({ error: 'Fallo en el registro' });
@@ -62,7 +54,7 @@ class Register extends Component {
           onChangeText={(text) => this.setState({ password: text })}
         />
 
-        <Pressable style={styles.button} onPress={this.register}>
+        <Pressable style={styles.button} onPress={() => this.register()}>
           <Text style={styles.buttonText}>Registrate</Text>
         </Pressable>
 

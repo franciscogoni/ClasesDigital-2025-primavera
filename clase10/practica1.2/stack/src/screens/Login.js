@@ -8,22 +8,33 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      error:""
+      error:''
     };
   }
 
-  login = () => {
-      const { email, password } = this.state;
+  login() {
+  
+      if (!this.state.email.includes('@')) {
+    this.setState({ error: 'Email mal formateado' });
+    return;
+  }
 
-      auth.signInWithEmailAndPassword (email, password)
-        .then( (response) => {
-          this.setState({loggedIn: true})
-        })
-        .catch( error => {
-          console.log(error)
-          this.setState({ error: 'No coinciden las credenciales' });
-        });
-    };
+  if (this.state.password.length < 6) {
+    this.setState({ error: 'La password debe tener una longitud mínima de 6 caracteres' });
+    return;
+  }
+
+  auth.signInWithEmailAndPassword(this.state.email, this.state.password)
+    .then((response) => {
+      console.log(response);
+      this.props.navigation.navigate('HomeMenu');
+      this.setState({ loggedIn: true, error: '' });
+    })
+    .catch((error) => {
+      console.log(error);
+      this.setState({ error: 'No coinciden las credenciales' });
+    });
+};
 
   render() {
     const { navigation } = this.props;
@@ -51,7 +62,7 @@ class Login extends Component {
         />
 
         
-        <Pressable style={styles.button} onPress={this.login}>
+        <Pressable style={styles.button} onPress={() => this.login()}>
           <Text style={styles.buttonText}>Login</Text>
         </Pressable>
 
@@ -70,8 +81,8 @@ class Login extends Component {
           <Text style={styles.buttonText}>Entrar en la app</Text>
         </Pressable>
 
-        <Text> {this.state.error ?
-          this.state.error: ""}</Text>
+        <Text> {this.state.error ? this.state.error: ""}</Text>
+
         <View style={styles.preview}>
           <Text style={styles.previewTitle}>Datos ingresados:</Text>
           <Text>Email: {email}</Text>
