@@ -17,13 +17,14 @@ class Login extends Component {
   };
 
   render() {
-    const { email, password } = this.state;
     const { navigation } = this.props;
+    const { email, password } = this.state;
 
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Iniciar Sesión</Text>
 
+        
         <TextInput
           style={styles.input}
           keyboardType="email-address"
@@ -40,10 +41,12 @@ class Login extends Component {
           onChangeText={(text) => this.setState({ password: text })}
         />
 
+        
         <Pressable style={styles.button} onPress={this.onSubmit}>
           <Text style={styles.buttonText}>Login</Text>
         </Pressable>
 
+       
         <Pressable
           style={[styles.button, { marginTop: 15, backgroundColor: '#007AFF' }]}
           onPress={() => navigation.navigate('Register')}
@@ -51,6 +54,15 @@ class Login extends Component {
           <Text style={styles.buttonText}>Ir al registro</Text>
         </Pressable>
 
+        
+        <Pressable
+          style={[styles.button, { marginTop: 15, backgroundColor: '#28a745' }]}
+          onPress={() => navigation.replace('HomeMenu')}
+        >
+          <Text style={styles.buttonText}>Entrar en la app</Text>
+        </Pressable>
+
+        
         <View style={styles.preview}>
           <Text style={styles.previewTitle}>Datos ingresados:</Text>
           <Text>Email: {email}</Text>
@@ -84,7 +96,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   button: {
-    backgroundColor: '#28a745',
+    backgroundColor: '#007AFF',
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 8,
