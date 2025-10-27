@@ -1,28 +1,67 @@
-import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
 
-function Login({ navigation }) {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Iniciar Sesion</Text>
-      <Pressable
-        style={styles.button}
-        onPress={() => navigation.navigate('Register')}
-      >
-        <Text style={styles.buttonText}>Ir al registro</Text>
-      </Pressable>
+class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+    };
+  }
 
-      <Pressable
-        style={[styles.button, { marginTop: 15, backgroundColor: '#28a745' }]}
-        onPress={() => navigation.replace('HomeMenu')} 
-      >
-        <Text style={styles.buttonText}>Entrar en la app</Text>
-      </Pressable>
-    </View>
-  );
+  onSubmit = () => {
+    console.log('Datos ingresados:');
+    console.log('Email:', this.state.email);
+    console.log('Contraseña:', this.state.password);
+  };
+
+  render() {
+    const { email, password } = this.state;
+    const { navigation } = this.props;
+
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Iniciar Sesión</Text>
+
+        <TextInput
+          style={styles.input}
+          keyboardType="email-address"
+          placeholder="Email"
+          value={email}
+          onChangeText={(text) => this.setState({ email: text })}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Contraseña"
+          secureTextEntry={true}
+          value={password}
+          onChangeText={(text) => this.setState({ password: text })}
+        />
+
+        <Pressable style={styles.button} onPress={this.onSubmit}>
+          <Text style={styles.buttonText}>Login</Text>
+        </Pressable>
+
+        <Pressable
+          style={[styles.button, { marginTop: 15, backgroundColor: '#007AFF' }]}
+          onPress={() => navigation.navigate('Register')}
+        >
+          <Text style={styles.buttonText}>Ir al registro</Text>
+        </Pressable>
+
+        <View style={styles.preview}>
+          <Text style={styles.previewTitle}>Datos ingresados:</Text>
+          <Text>Email: {email}</Text>
+          <Text>Contraseña: {password}</Text>
+        </View>
+      </View>
+    );
+  }
 }
 
-export default Login
+export default Login;
 
 const styles = StyleSheet.create({
   container: {
@@ -36,8 +75,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 30,
   },
+  input: {
+    width: '80%',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 15,
+  },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#28a745',
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 8,
@@ -45,5 +92,14 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 18,
+  },
+  preview: {
+    marginTop: 30,
+    alignItems: 'flex-start',
+  },
+  previewTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
   },
 });

@@ -52,7 +52,6 @@ class Register extends Component {
           <Text style={styles.buttonText}>Registrate</Text>
         </Pressable>
 
-        {/* Sección para mostrar los datos en tiempo real */}
         <View style={styles.preview}>
           <Text style={styles.previewTitle}>Datos ingresados:</Text>
           <Text>Email: {email}</Text>
