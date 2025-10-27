@@ -14,8 +14,7 @@ class Register extends Component {
   }
 
 register() {
-   
-    auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
+    auth.createUserWithEmailAndPassword(this.state.email, this.state.userName, this.state.password)
       .then( response => {
         this.props.navigation.navigate('Login');
       })
@@ -25,7 +24,6 @@ register() {
   };
 
   render() {
-    const { email, userName, password, error } = this.state;
 
     return (
       <View style={styles.container}>
@@ -35,14 +33,14 @@ register() {
           style={styles.input}
           keyboardType="email-address"
           placeholder="Email"
-          value={email}
+          value={this.state.email}
           onChangeText={(text) => this.setState({ email: text })}
         />
 
         <TextInput
           style={styles.input}
           placeholder="Nombre de usuario"
-          value={userName}
+          value={this.state.userName}
           onChangeText={(text) => this.setState({ userName: text })}
         />
 
@@ -50,7 +48,7 @@ register() {
           style={styles.input}
           placeholder="Contraseña"
           secureTextEntry={true}
-          value={password}
+          value={this.state.password}
           onChangeText={(text) => this.setState({ password: text })}
         />
 
@@ -64,9 +62,9 @@ register() {
 
         <View style={styles.preview}>
           <Text style={styles.previewTitle}>Datos ingresados:</Text>
-          <Text>Email: {email}</Text>
-          <Text>Usuario: {userName}</Text>
-          <Text>Contraseña: {password}</Text>
+          <Text>Email: {this.state.email}</Text>
+          <Text>Usuario: {this.state.userName}</Text>
+          <Text>Contraseña: {this.state.password}</Text>
         </View>
       </View>
     );
